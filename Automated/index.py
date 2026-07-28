@@ -44,6 +44,18 @@ logging.getLogger('WDM').setLevel(logging.WARNING)
 
 ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'mp4', 'mov', 'avi']
 
+# ---------- NEW: Directory constants ----------
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+COOKIES_DIR = os.path.join(SCRIPT_DIR, "cookies")
+POSTQUEUE_DIR = os.path.join(SCRIPT_DIR, "postque")
+CAPTION_DIR = os.path.join(SCRIPT_DIR, "caption")
+
+# Ensure the directories exist
+os.makedirs(COOKIES_DIR, exist_ok=True)
+os.makedirs(POSTQUEUE_DIR, exist_ok=True)
+os.makedirs(CAPTION_DIR, exist_ok=True)
+# -----------------------------------------------
+
 
 class InstagramLoginBot:
     def __init__(self):
@@ -452,21 +464,23 @@ class InstagramLoginBot:
 
         return success, fail
 
+    # ---------- MODIFIED: Cookies now stored in COOKIES_DIR ----------
     def save_cookies(self, username):
         try:
-            with open(f"cookies_{username}.pkl", "wb") as f:
+            cookies_path = os.path.join(COOKIES_DIR, f"cookies_{username}.pkl")
+            with open(cookies_path, "wb") as f:
                 pickle.dump(self.driver.get_cookies(), f)
-            logger.info(f"Cookies saved for {username}")
+            logger.info(f"Cookies saved for {username} at {cookies_path}")
         except Exception as e:
             logger.error(f"Save cookies error: {e}")
 
     def load_cookies(self, username):
         try:
-            cookies_file = f"cookies_{username}.pkl"
-            if os.path.exists(cookies_file):
+            cookies_path = os.path.join(COOKIES_DIR, f"cookies_{username}.pkl")
+            if os.path.exists(cookies_path):
                 self.driver.get('https://www.instagram.com/')
                 time.sleep(2)
-                with open(cookies_file, "rb") as f:
+                with open(cookies_path, "rb") as f:
                     cookies = pickle.load(f)
                 for cookie in cookies:
                     try:
@@ -515,6 +529,26 @@ def update_queue_from_folder(queue, folder_path):
     return queue
 
 
+# ---------- NEW: Helper to get caption for a media file ----------
+def get_caption_for_file(media_filename):
+    """Look for a .txt file with the same base name in CAPTION_DIR.
+    Return its content (stripped) if found; otherwise fall back to the filename without extension.
+    """
+    base, _ = os.path.splitext(media_filename)
+    caption_file = os.path.join(CAPTION_DIR, base + ".txt")
+    if os.path.isfile(caption_file):
+        try:
+            with open(caption_file, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+            if content:  # if file is not empty
+                logger.info(f"Caption loaded from {caption_file}")
+                return content
+        except Exception as e:
+            logger.warning(f"Could not read caption file {caption_file}: {e}")
+    # Fallback: use the file's base name as before
+    return base
+
+
 def process_queue_for_user(bot, username, folder_path, queue_file):
     """Login, build queue, upload pending items with progress counter."""
     # Login
@@ -558,8 +592,8 @@ def process_queue_for_user(bot, username, folder_path, queue_file):
             save_queue(queue_file, queue)
             continue
 
-        # Auto‑caption = filename without extension
-        caption = os.path.splitext(item['file'])[0]
+        # ---------- MODIFIED: caption from .txt file or filename fallback ----------
+        caption = get_caption_for_file(item['file'])
         print(f"[{idx}/{len(pending)}] Uploading: {item['file']} (caption: '{caption}')")
 
         if bot.post_media(full_path, caption):
@@ -598,7 +632,8 @@ def main():
 
     for username in accounts:
         print(f"{'='*30} Processing account: {username} {'='*30}")
-        queue_file = f"post_queue_{username}.json"
+        # ---------- MODIFIED: queue file placed in POSTQUEUE_DIR ----------
+        queue_file = os.path.join(POSTQUEUE_DIR, f"post_queue_{username}.json")
         bot = InstagramLoginBot()
 
         try:
