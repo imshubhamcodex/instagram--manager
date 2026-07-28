@@ -1,86 +1,108 @@
 # Instagram Automated Uploader
 
-A fully automated Python bot that logs into multiple Instagram accounts, scans a local `media` folder, and uploads all pending photos and videos using a persistent queue system.
+A Python automation tool that manages uploads for multiple Instagram accounts by maintaining a local upload queue. The project scans a media folder, keeps track of pending uploads, supports reusable browser sessions, and allows custom captions through text files.
 
-It supports session cookies, persistent Chrome profiles, auto-generated captions (filename without extension), duplicate prevention, and automatic dismissal of browser popups.
+> **Disclaimer:** This project is intended for educational and personal automation purposes only. Use it responsibly and ensure your usage complies with Instagram's Terms of Service.
 
 ---
 
-## 📁 Project Structure
+# Features
 
-```text
+- Multiple Instagram account support
+- Persistent Chrome profiles for each account
+- Session persistence using cookies
+- Automatic media scanning
+- Persistent upload queue per account
+- Duplicate upload prevention
+- Custom captions from text files
+- Filename fallback captions
+- Automatic dismissal of common Instagram popups
+- Supports images and videos
+- Resume uploads after interruption
+- Detailed logging
+- Human-like delays between uploads
+
+---
+
+# Project Structure
+
+```
 automated/
 │
-├── bot.py                          # Main script (all logic)
-├── accounts.json                   # User credentials
-├── media/                          # Place images/videos here
-│   ├── cat.jpg
-│   ├── video.mp4
+├── bot.py                          # Main application
+├── accounts.json                   # Instagram credentials
+│
+├── media/                          # Images & videos to upload
+│   ├── image.jpg
+│   ├── reel.mp4
 │   └── ...
 │
-├── instagram_bot.log               # Detailed logs (auto-generated)
-├── post_queue_<username>.json      # Upload queue for each account
-├── cookies_<username>.pkl          # Saved session cookies
-└── chrome_profile_<username>/      # Persistent Chrome profile
+├── caption/                        # Optional captions
+│   ├── image.txt
+│   ├── reel.txt
+│   └── ...
+│
+├── cookies/                        # Auto-created
+│   └── cookies_<username>.pkl
+│
+├── postque/                        # Auto-created
+│   └── post_queue_<username>.json
+│
+├── chrome_profile_<username>/      # Auto-created Chrome profile
+│
+└── instagram_bot.log               # Runtime logs
 ```
 
----
+The following folders are created automatically if they do not exist:
 
-## 🚀 Features
+- `caption/`
+- `cookies/`
+- `postque/`
+- `chrome_profile_<username>/`
 
-- ✅ Multi-account support
-- ✅ Session persistence using cookies and Chrome profiles
-- ✅ Automatic captions generated from filenames
-- ✅ Persistent upload queue
-- ✅ Duplicate prevention
-- ✅ Automatic popup dismissal
-- ✅ Progress counter during uploads
-- ✅ Clean console output with detailed log file
-- ✅ Supports both photos and videos
-- ✅ Resume uploads after interruption
+You only need to create:
+
+- `media/`
+- `accounts.json`
 
 ---
 
-## 🛠 Requirements
+# Requirements
 
-- Python **3.7+**
-- Google Chrome installed
-- ChromeDriver (installed automatically via `webdriver-manager`)
+- Python 3.7+
+- Google Chrome
+- Internet connection
 
-Install dependencies:
+Install required packages:
 
 ```bash
 pip install selenium webdriver-manager
 ```
 
-The script also uses built-in Python modules:
+The project also uses built-in Python modules:
 
 - json
 - os
 - glob
 - pickle
 - logging
-- pathlib
 - random
+- pathlib
 - time
 
-No additional installation is required.
-
 ---
 
-# 🔧 Setup
+# Installation
 
-## 1. Download the project
+Clone the repository.
 
-Clone or download this repository.
+```bash
+git clone https://github.com/yourusername/instagram-automated-uploader.git
 
-```text
-automated/
+cd instagram-automated-uploader
 ```
 
----
-
-## 2. Install dependencies
+Install dependencies.
 
 ```bash
 pip install selenium webdriver-manager
@@ -88,35 +110,41 @@ pip install selenium webdriver-manager
 
 ---
 
-## 3. Create `accounts.json`
+# Configuration
+
+## 1. Create `accounts.json`
 
 ```json
 {
-    "my_account1": {
-        "password": "your_password"
+    "my_account_1": {
+        "password": "password_here"
     },
-    "my_account2": {
-        "password": "another_password"
+    "my_account_2": {
+        "password": "password_here"
     }
 }
 ```
 
-> ⚠️ Never commit or share this file.
+Never upload this file to GitHub.
 
 ---
 
-## 4. Add media
+## 2. Add Media
 
-Create a folder named **media**
+Create a folder named `media`.
 
-```text
+Example:
+
+```
 media/
     cat.jpg
     sunset.png
-    reel.mp4
+    travel.mp4
 ```
 
 Supported formats:
+
+### Images
 
 - jpg
 - jpeg
@@ -124,42 +152,87 @@ Supported formats:
 - bmp
 - gif
 - webp
+
+### Videos
+
 - mp4
 - mov
 - avi
 
 ---
 
-## 5. Run
+## 3. Optional Captions
+
+If a caption file exists with the same filename, it will be used.
+
+Example:
+
+```
+media/
+    cat.jpg
+
+caption/
+    cat.txt
+```
+
+Contents of `cat.txt`:
+
+```
+My favourite cat 🐱
+
+#cats #pets #cute
+```
+
+If no text file exists, the caption becomes:
+
+```
+cat
+```
+
+(the filename without extension)
+
+---
+
+# Running
+
+Simply execute:
 
 ```bash
 python bot.py
 ```
 
+The bot will automatically process every account listed inside `accounts.json`.
+
 ---
 
-# 🔄 Workflow
+# Workflow
 
-For every account the bot will:
+For every account the bot performs the following steps:
 
 1. Launch a dedicated Chrome profile.
-2. Load saved cookies if available.
-3. Log in if necessary.
-4. Save fresh cookies.
-5. Dismiss login popups.
-6. Scan the `media` folder.
+2. Load previously saved cookies.
+3. Log in if required.
+4. Save updated cookies.
+5. Dismiss Instagram popups.
+6. Scan the media directory.
 7. Update the upload queue.
 8. Remove duplicate queue entries.
-9. Upload all pending media.
+9. Upload every pending file.
 10. Save upload status.
 11. Wait a random interval.
 12. Continue with the next account.
 
 ---
 
-# 📋 Queue File Example
+# Queue System
+
+Each account maintains its own upload queue.
 
 Example:
+
+```
+postque/post_queue_username.json
+```
 
 ```json
 [
@@ -172,101 +245,86 @@ Example:
         "status": "pending"
     },
     {
-        "file": "sunset.png",
+        "file": "holiday.png",
         "status": "failed"
     }
 ]
 ```
 
-### Status meanings
+## Status Values
 
-| Status | Meaning |
-|---------|---------|
-| pending | Will be uploaded next run |
+| Status | Description |
+|---------|-------------|
+| pending | Waiting to upload |
 | uploaded | Successfully uploaded |
 | failed | Upload failed |
 
-To retry a failed upload, simply change its status back to `"pending"`.
+To retry a failed upload, simply change:
+
+```json
+"failed"
+```
+
+to
+
+```json
+"pending"
+```
 
 ---
 
-# ⚙ Configuration
+# Caption System
 
-Some useful settings inside `bot.py`:
+The uploader supports two caption modes.
 
-| Variable | Description |
-|----------|-------------|
-| `ALLOWED_EXTENSIONS` | File extensions to scan |
-| `max_upload_wait` | Maximum wait time for upload completion |
-| `random.uniform(8, 15)` | Delay between uploads |
+## 1. Caption File
 
-Increase the delay if you want slower, more human-like behaviour.
+```
+media/
+    reel.mp4
 
----
+caption/
+    reel.txt
+```
 
-# ❓ Troubleshooting
+Contents:
 
-### Captcha or Challenge
+```
+Weekend vibes 🎬
 
-Instagram may occasionally require a captcha or verification.
+#travel #reels
+```
 
-Complete it manually in the opened browser.
-
-The bot will continue afterwards.
-
----
-
-### Login Failed
-
-- Verify your username.
-- Verify your password.
-- Check whether the account has been locked.
+The contents of `reel.txt` become the Instagram caption.
 
 ---
 
-### "Not now" popup still appears
+## 2. Filename Fallback
 
-Instagram occasionally changes popup layouts.
+If no text file exists,
 
-Add the new popup text inside the `dismiss_save_password_popup()` function if needed.
+```
+media/
+    mountain.mp4
+```
 
----
+Caption becomes:
 
-### Uploaded file still marked as pending
-
-Make sure the script has permission to write files.
-
-Check whether the queue JSON file is being updated correctly.
-
----
-
-### Image upload takes too long
-
-Possible reasons:
-
-- Slow internet
-- Large media files
-- Instagram processing delay
-
-The bot waits for either:
-
-- Upload confirmation
-- "Done" button
-- Success toast
-
-before proceeding.
+```
+mountain
+```
 
 ---
 
-# 📝 Logging
+# Logging
 
-A detailed log is written to:
+Every run creates or updates:
 
-```text
+```
 instagram_bot.log
 ```
 
-To display more information in the console, change:
+To show more information in the console, change:
 
 ```python
 console_handler.setLevel(logging.WARNING)
@@ -280,30 +338,134 @@ console_handler.setLevel(logging.INFO)
 
 ---
 
-# 🔒 Security Notes
+# Configuration Options
 
-- Keep `accounts.json` private.
-- Do not commit passwords to GitHub.
-- Consider storing credentials in environment variables for production use.
+Some useful values inside `bot.py`:
 
----
+| Setting | Description |
+|----------|-------------|
+| ALLOWED_EXTENSIONS | Media file types |
+| max_upload_wait | Maximum upload timeout |
+| random.uniform(8, 15) | Delay between uploads |
 
-# 📄 License
-
-This project is provided for educational purposes only.
-
-Use it at your own risk.
-
-The authors are not responsible for any account restrictions, suspensions, or bans that may result from using this software.
+Increasing the random delay results in slower, more natural upload behaviour.
 
 ---
 
-# 🙋 Support
+# Troubleshooting
 
-If you encounter issues:
+## Login Failed
 
-1. Check `instagram_bot.log`.
-2. Ensure your dependencies are up to date.
-3. Verify that Instagram has not changed its interface.
+- Verify your username.
+- Verify your password.
+- Check whether Instagram has locked the account.
 
-Contributions and improvements are welcome.
+---
+
+## Verification Required
+
+Instagram may occasionally require:
+
+- Email verification
+- SMS verification
+- CAPTCHA
+- Security challenge
+
+Complete the verification manually inside the opened browser.
+
+The session will be saved afterwards.
+
+---
+
+## Popup Still Appears
+
+Instagram periodically changes its interface.
+
+Update the popup text inside:
+
+```
+dismiss_save_password_popup()
+```
+
+if necessary.
+
+---
+
+## Upload Stuck
+
+Possible causes:
+
+- Slow internet
+- Large video files
+- Instagram processing delay
+
+The bot waits for upload confirmation before continuing.
+
+---
+
+## Queue Not Updating
+
+Ensure the script has permission to write inside:
+
+```
+postque/
+```
+
+Also verify the JSON file is not read-only.
+
+---
+
+# Security
+
+- Never commit `accounts.json`.
+- Never share passwords publicly.
+- Consider using environment variables for production deployments.
+- Keep cookie files private.
+
+---
+
+# Notes
+
+- Chrome profiles are stored separately for every account.
+- Sessions are automatically reused whenever possible.
+- Queue files prevent duplicate uploads.
+- Upload progress is preserved between runs.
+
+---
+
+# Disclaimer
+
+This project is provided solely for educational purposes.
+
+Users are responsible for ensuring that their use of this software complies with Instagram's Terms of Service and all applicable laws.
+
+The author assumes no responsibility for account restrictions, suspensions, or any other consequences resulting from the use of this software.
+
+---
+
+# License
+
+This project is released under the MIT License.
+
+Feel free to modify and improve it for your own projects.
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+If you find a bug or have an improvement:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Commit your changes.
+4. Open a Pull Request.
+
+---
+
+# Author
+
+Developed using Python, Selenium, and Chrome WebDriver.
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
