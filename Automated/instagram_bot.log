@@ -1,0 +1,66 @@
+2026-07-28 14:54:20,949 - INFO - Persistent profile: D:\Insta Auto\chrome_profile_meetvickyy
+2026-07-28 14:54:22,616 - INFO - Browser opened successfully
+2026-07-28 15:15:14,368 - INFO - Persistent profile: D:\Insta Auto\chrome_profile_meetvickyy
+2026-07-28 15:15:16,060 - INFO - Browser opened successfully
+2026-07-28 15:15:20,770 - INFO - Manual login with human-like typing...
+2026-07-28 15:15:36,402 - INFO - Form submitted
+2026-07-28 15:16:00,772 - INFO - Cookies saved for meetvickyy at D:\Insta Auto\cookies\cookies_meetvickyy.pkl
+2026-07-28 15:16:13,498 - INFO - Uploading: D:\Insta Auto\media\example_image.jpg
+2026-07-28 15:16:13,541 - INFO - Splash screen gone.
+2026-07-28 15:16:13,698 - INFO - Clicked 'New post'
+2026-07-28 15:16:15,708 - INFO - Clicked 'Post' in menu.
+2026-07-28 15:16:17,177 - INFO - File path sent directly.
+2026-07-28 15:16:24,780 - INFO - No video confirmation popup.
+2026-07-28 15:16:26,758 - INFO - Clicked 'Select crop'
+2026-07-28 15:16:32,889 - INFO - Clicked first 'Next'
+2026-07-28 15:16:34,021 - INFO - Clicked second 'Next'
+2026-07-28 15:16:36,899 - INFO - Caption added: example_image
+2026-07-28 15:16:37,050 - INFO - Clicked 'Share', waiting for upload...
+2026-07-28 15:16:45,496 - INFO - 'Done' button visible – upload finished.
+2026-07-28 15:16:49,578 - INFO - JS clicked 'Done' button: //div[@role="button" and normalize-space()="Done"]
+2026-07-28 15:16:49,578 - INFO - Upload completed!
+2026-07-28 15:17:12,108 - INFO - Caption loaded from D:\Insta Auto\caption\img1.txt
+2026-07-28 15:17:12,108 - INFO - Uploading: D:\Insta Auto\media\img1.jpg
+2026-07-28 15:17:12,157 - INFO - Splash screen gone.
+2026-07-28 15:17:12,339 - INFO - Clicked 'New post'
+2026-07-28 15:17:14,606 - INFO - Clicked 'Post' in menu.
+2026-07-28 15:17:15,806 - INFO - File path sent directly.
+2026-07-28 15:17:23,221 - INFO - No video confirmation popup.
+2026-07-28 15:17:25,048 - INFO - Clicked 'Select crop'
+2026-07-28 15:17:31,253 - INFO - Clicked first 'Next'
+2026-07-28 15:17:32,678 - INFO - Clicked second 'Next'
+2026-07-28 15:24:59,057 - INFO - Persistent profile: D:\Insta Auto\chrome_profile_meetvickyy
+2026-07-28 15:25:00,807 - INFO - Browser opened successfully
+2026-07-28 15:25:11,157 - INFO - Logged in via cookies
+2026-07-28 15:25:11,167 - INFO - Caption loaded from D:\Insta Auto\caption\img1.txt
+2026-07-28 15:25:11,167 - INFO - Uploading: D:\Insta Auto\media\img1.jpg
+2026-07-28 15:25:11,197 - INFO - Splash screen gone.
+2026-07-28 15:25:11,389 - INFO - Clicked 'New post'
+2026-07-28 15:25:13,487 - INFO - Clicked 'Post' in menu.
+2026-07-28 15:25:14,656 - INFO - File path sent directly.
+2026-07-28 15:25:22,699 - INFO - No video confirmation popup.
+2026-07-28 15:25:24,404 - INFO - Clicked 'Select crop'
+2026-07-28 15:25:25,366 - INFO - Selected 'Original' crop
+2026-07-28 15:25:26,267 - INFO - Clicked first 'Next'
+2026-07-28 15:25:27,958 - INFO - Clicked second 'Next'
+2026-07-28 15:25:31,719 - INFO - Caption added: I love nature!!
+2026-07-28 15:25:31,897 - INFO - Clicked 'Share', waiting for upload...
+2026-07-28 15:25:39,794 - INFO - 'Done' button visible – upload finished.
+2026-07-28 15:25:42,756 - INFO - JS clicked 'Done' button: //div[@role="button" and normalize-space()="Done"]
+2026-07-28 15:25:42,756 - INFO - Upload completed!
+2026-07-28 15:25:58,828 - INFO - Uploading: D:\Insta Auto\media\Crazy Speed.mp4
+2026-07-28 15:25:58,837 - INFO - Splash screen gone.
+2026-07-28 15:25:58,927 - INFO - Clicked 'New post'
+2026-07-28 15:26:00,829 - INFO - Clicked 'Post' in menu.
+2026-07-28 15:26:02,596 - INFO - File path sent directly.
+2026-07-28 15:26:05,323 - INFO - Clicked 'OK' on short video popup.
+2026-07-28 15:26:08,725 - INFO - Clicked 'Select crop'
+2026-07-28 15:26:09,731 - INFO - Selected 'Original' crop
+2026-07-28 15:26:10,417 - INFO - Clicked first 'Next'
+2026-07-28 15:26:11,708 - INFO - Clicked second 'Next'
+2026-07-28 15:26:14,652 - INFO - Caption added: Crazy Speed
+2026-07-28 15:26:14,757 - INFO - Clicked 'Share', waiting for upload...
+2026-07-28 15:27:20,097 - INFO - 'Done' button visible – upload finished.
+2026-07-28 15:27:24,054 - INFO - JS clicked 'Done' button: //div[@role="button" and normalize-space()="Done"]
+2026-07-28 15:27:24,054 - INFO - Upload completed!
+2026-07-28 15:27:34,518 - INFO - Browser closed

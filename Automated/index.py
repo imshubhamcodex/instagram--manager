@@ -117,6 +117,30 @@ class InstagramLoginBot:
 
     def human_like_delay(self, min_sec=0.5, max_sec=2.0):
         time.sleep(random.uniform(min_sec, max_sec))
+        
+    def _select_original_crop(self):
+        """If this is an image, select 'Original' crop to preserve aspect ratio."""
+        try:
+            # Wait a moment for the crop button to appear
+            self.human_like_delay(1.5, 2.5)
+            crop_btn = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, 'svg[aria-label="Select crop"]'))
+            )
+            crop_btn.click()
+            logger.info("Clicked 'Select crop'")
+            self.human_like_delay(0.5, 1)
+            
+            # Now click the "Original" option in the dropdown
+            original_option = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//div[@role="button"][.//span[text()="Original"]]'))
+            )
+            original_option.click()
+            logger.info("Selected 'Original' crop")
+            self.human_like_delay(0.5, 1)
+        except Exception:
+            # Videos or UI differences – just skip
+            logger.debug("Could not select original crop (probably a video or UI changed).")
 
     def login_manual_fallback(self, username, password):
         logger.info("Manual login with human-like typing...")
@@ -336,6 +360,8 @@ class InstagramLoginBot:
                 self.human_like_delay(1, 2)
             except:
                 logger.info("No video confirmation popup.")
+                
+            self._select_original_crop()
 
             next_btn = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, '//div[@role="button" and contains(text(),"Next")]'))

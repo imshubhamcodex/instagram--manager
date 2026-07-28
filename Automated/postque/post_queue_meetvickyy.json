@@ -1,0 +1,14 @@
+[
+  {
+    "file": "example_image.jpg",
+    "status": "uploaded"
+  },
+  {
+    "file": "img1.jpg",
+    "status": "uploaded"
+  },
+  {
+    "file": "Crazy Speed.mp4",
+    "status": "uploaded"
+  }
+]
